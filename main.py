@@ -1,6 +1,8 @@
 from fastapi import FastAPI, Response, status, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-import cv2,base64
+import cv2
+import base64
+import os
 
 import uvicorn
 
@@ -44,6 +46,11 @@ def get_cctv_cat(video_url: str, response=Response):
     # jpg_as_text = base64.b64encode(buffer)
     # return jpg_as_text
 
+default_port = "8111"
+try:
+    port = int(float(os.getenv("PORT", default_port)))
+except TypeError:
+    port = int(default_port)
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8111, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)
